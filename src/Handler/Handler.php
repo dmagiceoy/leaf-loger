@@ -41,7 +41,7 @@ abstract class Handler
      *
      * @return bool|string
      */
-    public function getLogTime($format = 'Y-m-d H:i:s', int $utimestamp = 0)
+    public function getLogTime($format = 'Y-m-d H:i:s', $utimestamp = 0)
     {
         return date($format);
     }

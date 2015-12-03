@@ -42,7 +42,7 @@ class HandlerFile extends Handler
      *
      * @param string $file
      */
-    public function setLogFile(string $file)
+    public function setLogFile($file)
     {
         if ( !empty( $file )) {
             $this->logFile = $file;
@@ -91,7 +91,7 @@ class HandlerFile extends Handler
      *
      * @param string $format : '<timestamp> [-][-][-][<level>][<category>] <message>';
      */
-    public function setLogMessageFormat(string $format)
+    public function setLogMessageFormat($format)
     {
         $this->logMessageFormat = $format;
     }
