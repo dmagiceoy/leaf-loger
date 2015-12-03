@@ -2,7 +2,7 @@
 
 require '../../vendor/autoload.php';
 
-$logDriver = \Leaf\Loger\Example\LogDriver::getInstance();
+$logDriver = new \Leaf\Loger\Example\LogDriver();
 $logDriver->setLogFile('./log.log');
 
 $logDriver->info('test');

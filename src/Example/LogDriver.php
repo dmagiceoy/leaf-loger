@@ -10,8 +10,6 @@
  * 3. 设置日志处理器, 比如文件处理器, 可设置多个, 设置完成后添加到 loger 中
  */
 
-declare(strict_types = 1);
-
 namespace Leaf\Loger\Example;
 
 use \Psr\Log;
@@ -25,7 +23,7 @@ class LogDriver
     private static $instance = null;
     private $loger = null;
 
-    private function __construct()
+    public function __construct()
     {
         self::init();
     }
@@ -48,77 +46,86 @@ class LogDriver
 
     /**
      * 获取日志记录器
+     *
      * @return Loger
      */
-    public function getLoger():Loger
+    public function getLoger()
     {
         return $this->loger;
     }
 
     /**
      * 获取单例模式实例化后的loger
-     * @return Loger
+     *
+     * @return LogDriver
      */
-    public function getInstance(string $instanceName = 'default'):LogDriver
+    /*public static function getInstance($instanceName = 'default')
     {
-        if (empty(self::$instance[$instanceName])) {
+        if (empty( self::$instance[$instanceName] )) {
             self::$instance[$instanceName] = new self();
         }
-        return self::$instance[$instanceName];
-    }
 
-    public function emergency(string $message, array $context = [])
+        return self::$instance[$instanceName];
+    }*/
+
+    public function emergency($message, array $context = [])
     {
         $this->getLoger()->emergency($message, $context);
     }
 
-    public function error(string $message, array $context = [])
+    public function error($message, array $context = [])
     {
         $this->getLoger()->error($message, $context);
     }
 
-    public function warning(string $message, array $context = [])
+    public function warning($message, array $context = [])
     {
         $this->getLoger()->warning($message, $context);
     }
 
-    public function alert(string $message, array $context = [])
+    public function alert($message, array $context = [])
     {
         $this->getLoger()->alert($message, $context);
     }
 
-    public function critical(string $message, array $context = [])
+    public function critical($message, array $context = [])
     {
         $this->getLoger()->critical($message, $context);
     }
 
-    public function notice(string $message, array $context = [])
+    public function notice($message, array $context = [])
     {
         $this->getLoger()->notice($message, $context);
     }
 
-    public function info(string $message, array $context = [])
+    public function info($message, array $context = [])
     {
         $this->getLoger()->info($message, $context);
     }
 
-    public function debug(string $message, array $context = [])
+    public function debug($message, array $context = [])
     {
         $this->getLoger()->debug($message, $context);
     }
 
     /**
      * 获取文件处理器日志记录路径
+     *
+     * @return string
      */
     public function getLogFile()
     {
-        $this->getLoger()->getLogHandlerManager()->getSomeLogHandler('file')->getLogFile();
+        return $this->getLoger()->getLogHandlerManager()->getSomeLogHandler('file')->getLogFile();
     }
 
     /**
      * 设置文件处理器日志记录路径
+     *
+     * @param string $file
+     *
+     * @return  void
      */
-    public function setLogFile(string $file)
+    public function setLogFile($file)
     {
         $this->getLoger()->getLogHandlerManager()->getSomeLogHandler('file')->setLogFile($file);
     }

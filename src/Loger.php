@@ -2,10 +2,10 @@
 
 /**
  * loger
- * you are recommend to handle loger,logHandlerManager and logHandler with dependent object such as leaf-di to loose coupling.
+ * you are recommend to handle loger,logHandlerManager and logHandler with dependent object such as leaf-di to loose
+ * coupling.
  */
 
-declare(strict_types = 1);
 
 namespace Leaf\Loger;
 
@@ -40,7 +40,7 @@ class Loger
      *
      * @param LogHandlerManager $logHandlerManager
      */
-    public function setLogHandlerManager(LogHandlerManager $logHandlerManager)
+    public function setLogHandlerManager($logHandlerManager)
     {
         $this->logHandlerManager = $logHandlerManager;
     }
@@ -50,7 +50,7 @@ class Loger
      *
      * @return LogHandlerManager
      */
-    public function getLogHandlerManager():LogHandlerManager
+    public function getLogHandlerManager()
     {
         return $this->logHandlerManager;
     }
@@ -60,9 +60,9 @@ class Loger
      *
      * @param string $logHandlerName
      */
-    public function getSomeLogHandler(string $logHandlerName)
+    public function getSomeLogHandler($logHandlerName)
     {
-        if (empty($logHandlerName) && !is_null($this->logHandlerManager)) {
+        if (empty( $logHandlerName ) && !is_null($this->logHandlerManager)) {
             return $this->getLogHandlerManager()->getSomeLogHandler($logHandlerName);
         }
     }
@@ -71,10 +71,11 @@ class Loger
      * System is unusable.
      *
      * @param string $message
-     * @param array $context
+     * @param array  $context
+     *
      * @return null
      */
-    public function emergency(string $message, array $context = [])
+    public function emergency($message, array $context = [])
     {
         $this->log(LogLevel::EMERGENCY, $message, $context);
     }
@@ -86,10 +87,11 @@ class Loger
      * trigger the SMS alerts and wake you up.
      *
      * @param string $message
-     * @param array $context
+     * @param array  $context
+     *
      * @return null
      */
-    public function alert(string $message, array $context = [])
+    public function alert($message, array $context = [])
     {
         $this->log(LogLevel::ALERT, $message, $context);
     }
@@ -100,7 +102,8 @@ class Loger
      * Example: Application component unavailable, unexpected exception.
      *
      * @param string $message
-     * @param array $context
+     * @param array  $context
+     *
      * @return null
      */
     public function critical(string $message, array $context = [])
@@ -113,10 +116,11 @@ class Loger
      * be logged and monitored.
      *
      * @param string $message
-     * @param array $context
+     * @param array  $context
+     *
      * @return null
      */
-    public function error(string $message, array $context = [])
+    public function error($message, array $context = [])
     {
         $this->log(LogLevel::ERROR, $message, $context);
     }
@@ -128,10 +132,11 @@ class Loger
      * that are not necessarily wrong.
      *
      * @param string $message
-     * @param array $context
+     * @param array  $context
+     *
      * @return null
      */
-    public function warning(string $message, array $context = [])
+    public function warning($message, array $context = [])
     {
         $this->log(LogLevel::WARNING, $message, $context);
     }
@@ -140,10 +145,11 @@ class Loger
      * Normal but significant events.
      *
      * @param string $message
-     * @param array $context
+     * @param array  $context
+     *
      * @return null
      */
-    public function notice(string $message, array $context = [])
+    public function notice($message, array $context = [])
     {
         $this->log(LogLevel::NOTICE, $message, $context);
     }
@@ -154,10 +160,11 @@ class Loger
      * sush as：login in log and SQL log。
      *
      * @param string $message
-     * @param array $context
+     * @param array  $context
+     *
      * @return null
      */
-    public function info(string $message, array $context = [])
+    public function info($message, array $context = [])
     {
         $this->log(LogLevel::INFO, $message, $context);
     }
@@ -166,10 +173,11 @@ class Loger
      * debug log
      *
      * @param string $message
-     * @param array $context
+     * @param array  $context
+     *
      * @return null
      */
-    public function debug(string $message, array $context = [])
+    public function debug($message, array $context = [])
     {
         $this->log(LogLevel::DEBUG, $message, $context);
     }
@@ -177,25 +185,29 @@ class Loger
     /**
      * log
      *
-     * @param mixed $level
+     * @param mixed  $level
      * @param string $message
-     * @param array $context
+     * @param array  $context
+     *
      * @return null
      */
-    public function log(string $level, string $message, array $context = [])
+    public function log($level, $message, array $context = [])
     {
-        if (is_object(static::getLogHandlerManager()) && (static::getLogHandlerManager() instanceof LogHandlerManager)) {
+        if (is_object(static::getLogHandlerManager()) && ( static::getLogHandlerManager() instanceof LogHandlerManager )) {
             static::getLogHandlerManager()->handle($level, $message, $context);
-        } else {
+        }
+        else {
             throw new \UnexpectedValueException('logManager needed!');
         }
     }
 
     /**
      * add a log handler
-     * @param LogHandler $handler
+     *
+     * @param string  $handlerName handlerName
+     * @param Handler $handler
      */
-    public function addHandler(string $handlerName, Handler $handler)
+    public function addHandler($handlerName, Handler $handler)
     {
         static::getLogHandlerManager()->addHandler($handlerName, $handler);
     }

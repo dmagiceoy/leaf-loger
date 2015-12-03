@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Leaf\Loger\Handler;
 
 /**
  * file handler
  * Class HandlerFile
+ *
  * @package Leaf\Loger\Handler
  */
 class HandlerFile extends Handler
@@ -45,10 +44,11 @@ class HandlerFile extends Handler
      */
     public function setLogFile(string $file)
     {
-        if (!empty($file)) {
+        if ( !empty( $file )) {
             $this->logFile = $file;
             $this->makeLogFile();
-        } else {
+        }
+        else {
             throw new \InvalidArgumentException('you can\'t set empty log path');
         }
     }
@@ -61,13 +61,13 @@ class HandlerFile extends Handler
     protected function makeLogFile()
     {
         try {
-            if (!empty($this->logFile)) {
+            if ( !empty( $this->logFile )) {
                 //create dir and file
-                if (!is_dir($logDir = dirname($this->logFile))) {
+                if ( !is_dir($logDir = dirname($this->logFile))) {
                     mkdir($logDir, $this->fileMode, true);
                     touch($this->logFile);
                 }
-                if (!is_file($this->logFile)) {
+                if ( !is_file($this->logFile)) {
                     touch($this->logFile);
                 }
             }
@@ -109,7 +109,7 @@ class HandlerFile extends Handler
      */
     public function flushLog()
     {
-        if (!empty($this->logMessage)) {
+        if ( !empty( $this->logMessage )) {
             foreach ($this->logMessage as $message) {
                 $this->logContent .= $this->pregLogContent($message) . PHP_EOL;
             }
@@ -123,9 +123,10 @@ class HandlerFile extends Handler
      * recording to the self::logMessageFormat, convert log array to log string
      *
      * @param array $message
+     *
      * @return string
      */
-    protected function pregLogContent(array $message = []):string
+    protected function pregLogContent(array $message = [])
     {
         $messageStr = '';
         $replaceSearch = [];
@@ -135,6 +136,7 @@ class HandlerFile extends Handler
             $replaceContent[] = $messageVal;
         }
         $messageStr = str_replace($replaceSearch, $replaceContent, $this->logMessageFormat);
+
         return $messageStr;
     }
 
