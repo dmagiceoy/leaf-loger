@@ -6,10 +6,9 @@
   "keywords": [
     "loger",
     "php",
-    "php7"
   ],
   "homepage": "https://www.leafphp.com",
-  "license": "GUN",
+  "license": "MIT",
   "authors": [
     {
       "name": "hongshuai dong",
