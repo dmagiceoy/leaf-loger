@@ -25,10 +25,5 @@
     "psr-4": {
       "Leaf\\Loger\\": "src/"
     }
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "0.1.x-dev"
-    }
   }
 }
