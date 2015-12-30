@@ -1,8 +1,8 @@
 <?php
 
 /**
- * 这是一个驱动, 介绍了如何使用 leaf-loger, 向文件中写日志, 在实际应用场景中, 你可以自由发挥拓展, 而不是直接把当前这个这个driver
- * 拿到项目中使用
+ * 这是一个驱动, 介绍了如何使用 leaf-loger, 向文件中写日志
+ * 你可以将当前这个 LogDriver比作是你的框架，如此集成其道你的项目中
  * 另外, 该驱动实现了基本你可能需要的方法, 如日志记录 info, error, 以及获取文件处理器日志记录位置等
  * 本驱动主要做了3个事情
  * 1. 实例化loger, 该loger可做成单例模式, 是否单例取决于你, 本driver中, 并未处理成单例
@@ -14,7 +14,6 @@ namespace Leaf\Loger\Example;
 
 use \Psr\Log;
 use \Leaf\Loger\Handler\HandlerFile;
-use \Leaf\Loger\LogerClass\LogHandlerManager;
 use \Leaf\Loger\Loger;
 
 class LogDriver
@@ -38,6 +37,7 @@ class LogDriver
          * 设置日志处理器之文件处理器
          */
         $fileHandler = new HandlerFile();
+        //$fileHandler->enableRealTimeFlush();
         /**
          * 将文件日志处理器添加到loger中
          */
@@ -54,58 +54,44 @@ class LogDriver
         return $this->loger;
     }
 
-    /**
-     * 获取单例模式实例化后的loger
-     *
-     * @return LogDriver
-     */
-    /*public static function getInstance($instanceName = 'default')
+    public function emergency($message, array $context = [], $category = '')
     {
-        if (empty( self::$instance[$instanceName] )) {
-            self::$instance[$instanceName] = new self();
-        }
-
-        return self::$instance[$instanceName];
-    }*/
-
-    public function emergency($message, array $context = [])
-    {
-        $this->getLoger()->emergency($message, $context);
+        $this->getLoger()->emergency($message, $context, $category);
     }
 
-    public function error($message, array $context = [])
+    public function error($message, array $context = [], $category = '')
     {
-        $this->getLoger()->error($message, $context);
+        $this->getLoger()->error($message, $context, $category);
     }
 
-    public function warning($message, array $context = [])
+    public function warning($message, array $context = [], $category = '')
     {
-        $this->getLoger()->warning($message, $context);
+        $this->getLoger()->warning($message, $context, $category);
     }
 
-    public function alert($message, array $context = [])
+    public function alert($message, array $context = [], $category = '')
     {
-        $this->getLoger()->alert($message, $context);
+        $this->getLoger()->alert($message, $context, $category);
     }
 
-    public function critical($message, array $context = [])
+    public function critical($message, array $context = [], $category = '')
     {
-        $this->getLoger()->critical($message, $context);
+        $this->getLoger()->critical($message, $context, $category);
     }
 
-    public function notice($message, array $context = [])
+    public function notice($message, array $context = [], $category = '')
     {
-        $this->getLoger()->notice($message, $context);
+        $this->getLoger()->notice($message, $context, $category);
     }
 
-    public function info($message, array $context = [])
+    public function info($message, array $context = [], $category = '')
     {
-        $this->getLoger()->info($message, $context);
+        $this->getLoger()->info($message, $context, $category);
     }
 
-    public function debug($message, array $context = [])
+    public function debug($message, array $context = [], $category = '')
     {
-        $this->getLoger()->debug($message, $context);
+        $this->getLoger()->debug($message, $context, $category);
     }
 
     /**

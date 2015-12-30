@@ -14,11 +14,26 @@ class HandlerFile extends Handler
     protected $logContent = '';
     protected $logFile = '';
 
-    // 10 * 1024 means that you can split files with 10M a file
+    /**
+     * 10 * 1024 means that you can split files with 10M a file
+     */
     protected $maxFileSize = 0;
 
-    //log message style, you can expand it like this: <timestamp> [<requestid>][<ip>][<>][<level>][<category>] <message>
+    /**
+     * log message style, you can expand it like this: <timestamp> [<requestid>][<ip>][<>][<level>][<category>]
+     * <message>
+     *
+     * @var string
+     */
     protected $logMessageFormat = '<timestamp> [-][-][-][<level>][<category>] <message>';
+
+    /**
+     * if 0, this handler will flush logs just when php script is shutdown, otherwise the handler will flush log every
+     * time when log function is called
+     *
+     * @var int
+     */
+    protected $realTimeFlush = 0;
 
     /**
      * init
@@ -35,6 +50,11 @@ class HandlerFile extends Handler
     public function init()
     {
         $this->registerFileLogShutDown();
+    }
+
+    public function enableRealTimeFlush()
+    {
+        $this->realTimeFlush = 1;
     }
 
     /**
@@ -102,6 +122,17 @@ class HandlerFile extends Handler
     protected function registerFileLogShutDown()
     {
         register_shutdown_function([$this, 'flushLog']);
+    }
+
+    /**
+     * checks if this handler has enable realtime flush, if enabled ,the handler will flush log as real-time
+     */
+    protected function afterHanle()
+    {
+        if ($this->realTimeFlush === 1) {
+            $this->flushLog();
+        }
+        parent::afterHanle();
     }
 
     /**

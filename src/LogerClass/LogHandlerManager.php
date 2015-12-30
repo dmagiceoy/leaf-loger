@@ -67,14 +67,10 @@ class LogHandlerManager
      *
      * @return void
      */
-    public function handle($level, $message, array $context = [])
+    public function handle($level, $message, array $context = [], $category = '')
     {
         foreach ($this->handlers as $handlerObj) {
-            /**
-             * $handlerObj
-             * @var Handler
-             */
-            $handlerObj->handle($level, $message, $context);
+            $handlerObj->handle($level, $message, $context, $category);
         }
     }
 
@@ -91,6 +87,46 @@ class LogHandlerManager
         else {
             throw new \InvalidArgumentException('empty logHandlerName');
         }
+    }
+
+    /**
+     * set the log level type of current log handler
+     *
+     * @param string $level it can only be one of types of self::$logType
+     *
+     * @return $this
+     */
+    public function setLogLevel($level = LogLevel::NOTICE)
+    {
+        foreach ($this->handlers as $handlerObj) {
+            /**
+             * $handlerObj
+             * @var Handler
+             */
+            $handlerObj->setLogLevel($level);
+        }
+
+        return $this;
+    }
+
+    /**
+     * set the log category types of current log handler
+     *
+     * @param string it can be something like application,debug
+     *
+     * @return $this
+     */
+    public function setLogCategory($category = '')
+    {
+        foreach ($this->handlers as $handlerObj) {
+            /**
+             * $handlerObj
+             * @var Handler
+             */
+            $handlerObj->setLogCategory($category);
+        }
+
+        return $this;
     }
 
 }

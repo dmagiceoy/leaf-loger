@@ -72,12 +72,13 @@ class Loger
      *
      * @param string $message
      * @param array  $context
+     * @param string $category
      *
      * @return null
      */
-    public function emergency($message, array $context = [])
+    public function emergency($message, array $context = [], $category = '')
     {
-        $this->log(LogLevel::EMERGENCY, $message, $context);
+        $this->log(LogLevel::EMERGENCY, $message, $context, $category);
     }
 
     /**
@@ -88,12 +89,13 @@ class Loger
      *
      * @param string $message
      * @param array  $context
+     * @param string $category
      *
      * @return null
      */
-    public function alert($message, array $context = [])
+    public function alert($message, array $context = [], $category = '')
     {
-        $this->log(LogLevel::ALERT, $message, $context);
+        $this->log(LogLevel::ALERT, $message, $context, $category);
     }
 
     /**
@@ -103,12 +105,13 @@ class Loger
      *
      * @param string $message
      * @param array  $context
+     * @param string $category
      *
      * @return null
      */
-    public function critical(string $message, array $context = [])
+    public function critical(string $message, array $context = [], $category = '')
     {
-        $this->log(LogLevel::CRITICAL, $message, $context);
+        $this->log(LogLevel::CRITICAL, $message, $context, $category);
     }
 
     /**
@@ -117,12 +120,13 @@ class Loger
      *
      * @param string $message
      * @param array  $context
+     * @param string $category
      *
      * @return null
      */
-    public function error($message, array $context = [])
+    public function error($message, array $context = [], $category = '')
     {
-        $this->log(LogLevel::ERROR, $message, $context);
+        $this->log(LogLevel::ERROR, $message, $context, $category);
     }
 
     /**
@@ -133,12 +137,13 @@ class Loger
      *
      * @param string $message
      * @param array  $context
+     * @param string $category
      *
      * @return null
      */
-    public function warning($message, array $context = [])
+    public function warning($message, array $context = [], $category = '')
     {
-        $this->log(LogLevel::WARNING, $message, $context);
+        $this->log(LogLevel::WARNING, $message, $context, $category);
     }
 
     /**
@@ -146,12 +151,13 @@ class Loger
      *
      * @param string $message
      * @param array  $context
+     * @param string $category
      *
      * @return null
      */
-    public function notice($message, array $context = [])
+    public function notice($message, array $context = [], $category = '')
     {
-        $this->log(LogLevel::NOTICE, $message, $context);
+        $this->log(LogLevel::NOTICE, $message, $context, $category);
     }
 
     /**
@@ -161,12 +167,13 @@ class Loger
      *
      * @param string $message
      * @param array  $context
+     * @param string $category
      *
      * @return null
      */
-    public function info($message, array $context = [])
+    public function info($message, array $context = [], $category = '')
     {
-        $this->log(LogLevel::INFO, $message, $context);
+        $this->log(LogLevel::INFO, $message, $context, $category);
     }
 
     /**
@@ -174,12 +181,13 @@ class Loger
      *
      * @param string $message
      * @param array  $context
+     * @param string $category
      *
      * @return null
      */
-    public function debug($message, array $context = [])
+    public function debug($message, array $context = [], $category = '')
     {
-        $this->log(LogLevel::DEBUG, $message, $context);
+        $this->log(LogLevel::DEBUG, $message, $context, $category);
     }
 
     /**
@@ -188,13 +196,14 @@ class Loger
      * @param mixed  $level
      * @param string $message
      * @param array  $context
+     * @param string $category
      *
      * @return null
      */
-    public function log($level, $message, array $context = [])
+    public function log($level, $message, array $context = [], $category = '')
     {
         if (is_object(static::getLogHandlerManager()) && ( static::getLogHandlerManager() instanceof LogHandlerManager )) {
-            static::getLogHandlerManager()->handle($level, $message, $context);
+            static::getLogHandlerManager()->handle($level, $message, $context, $category);
         }
         else {
             throw new \UnexpectedValueException('logManager needed!');
@@ -211,5 +220,45 @@ class Loger
     {
         static::getLogHandlerManager()->addHandler($handlerName, $handler);
     }
+
+    /**
+     * set the log level type of all the  log handler
+     *
+     * @param string $level it can only be one of types of self::$logType
+     *
+     * @return $this
+     */
+    public function setLogLevel($level = LogLevel::NOTICE)
+    {
+        if (is_object(static::getLogHandlerManager()) && ( static::getLogHandlerManager() instanceof LogHandlerManager )) {
+            static::getLogHandlerManager()->setLogLevel($level);
+        }
+        else {
+            throw new \UnexpectedValueException('logManager needed!');
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * set the log category types of all the log handler
+     *
+     * @param string $category it can be something like 'application,debug' or a single 'profile'
+     *
+     * @return $this
+     */
+    public function setLogCategory($category = '')
+    {
+        if (is_object(static::getLogHandlerManager()) && ( static::getLogHandlerManager() instanceof LogHandlerManager )) {
+            static::getLogHandlerManager()->setLogCategory($category);
+        }
+        else {
+            throw new \InvalidArgumentException('wrong level type!');
+        }
+
+        return $this;
+    }
+
 
 }
