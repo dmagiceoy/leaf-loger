@@ -10,12 +10,46 @@ namespace Leaf\Loger\Handler;
  */
 class HandlerFile extends Handler
 {
+
+    /**
+     * log file mode
+     *
+     * @var int
+     */
     public $fileMode = 0775;
+
+    /**
+     * log content of the log file
+     *
+     * @var string
+     */
     protected $logContent = '';
+
+    /**
+     * log file
+     *
+     * @var string
+     */
     protected $logFile = '';
 
     /**
+     * suffix of the log file
+     *
+     * @var string
+     */
+    protected $logFileSuffix = '';
+
+    /**
+     * prefix of the log file
+     *
+     * @var string
+     */
+    protected $logFilePrefix = '';
+
+    /**
      * 10 * 1024 means that you can split files with 10M a file
+     *
+     * @var int
      */
     protected $maxFileSize = 0;
 
@@ -66,7 +100,6 @@ class HandlerFile extends Handler
     {
         if ( !empty( $file )) {
             $this->logFile = $file;
-            $this->makeLogFile();
         }
         else {
             throw new \InvalidArgumentException('you can\'t set empty log path');
@@ -177,8 +210,40 @@ class HandlerFile extends Handler
     protected function flushToFile()
     {
         if ($this->maxFileSize === 0) {
-            error_log($this->logContent, 3, $this->logFile);
+            error_log($this->logContent, 3, $this->logFilePrefix . $this->logFile . $this->logFileSuffix);
         }
+    }
+
+    /**
+     * set suffix of the log file
+     *
+     * @param string $suffix
+     *
+     * @return $this
+     */
+    public function setLogFileSuffix($suffix = '')
+    {
+        if ( !empty( $suffix )) {
+            $this->logFileSuffix = $suffix;
+        }
+
+        return $this;
+    }
+
+    /**
+     * set suffix of the log file
+     *
+     * @param string $prefix
+     *
+     * @return $this
+     */
+    public function setLogFilePrefix($prefix = '')
+    {
+        if ( !empty( $prefix )) {
+            $this->logFilePrefix = $prefix;
+        }
+
+        return $this;
     }
 
 
