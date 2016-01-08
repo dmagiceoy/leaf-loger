@@ -111,17 +111,17 @@ class HandlerFile extends Handler
      *
      * @throws \Exception
      */
-    protected function makeLogFile()
+    protected function makeLogFile($file = '')
     {
         try {
-            if ( !empty( $this->logFile )) {
+            if ( !empty( $file )) {
                 //create dir and file
-                if ( !is_dir($logDir = dirname($this->logFile))) {
+                if ( !is_dir($logDir = dirname($file))) {
                     mkdir($logDir, $this->fileMode, true);
-                    touch($this->logFile);
+                    touch($file);
                 }
-                if ( !is_file($this->logFile)) {
-                    touch($this->logFile);
+                if ( !is_file($file)) {
+                    touch($file);
                 }
             }
         } catch (\Exception $e) {
@@ -210,7 +210,11 @@ class HandlerFile extends Handler
     protected function flushToFile()
     {
         if ($this->maxFileSize === 0) {
-            error_log($this->logContent, 3, $this->logFilePrefix . $this->logFile . $this->logFileSuffix);
+            $file = $this->logFilePrefix . $this->logFile . $this->logFileSuffix;
+            if ( !is_file($file)) {
+                $this->makeLogFile($file);
+            }
+            error_log($this->logContent, 3, $file);
         }
     }
 
